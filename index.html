@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualización Dataset NSL-KDD</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-database"></i> Visualización Dataset NSL-KDD</h1>
+            <p class="subtitle">Explora los notebooks de análisis de datos de seguridad</p>
+        </header>
+
+        <main class="main-content">
+            <section class="project-info">
+                <h2><i class="fas fa-info-circle"></i> Acerca del Proyecto</h2>
+                <p>Este proyecto permite visualizar y explorar los notebooks del dataset ISCX NSL-KDD, utilizado para la detección de intrusiones en redes. Haz clic en cualquiera de las tarjetas para ver el contenido detallado de cada notebook.</p>
+                
+                <div class="dataset-info">
+                    <h3><i class="fas fa-chart-bar"></i> Sobre el Dataset</h3>
+                    <ul>
+                        <li><strong>Nombre:</strong> ISCX NSL-KDD</li>
+                        <li><strong>Propósito:</strong> Detección de intrusiones en redes</li>
+                        <li><strong>Mejoras:</strong> Versión mejorada del KDD'99 sin registros redundantes</li>
+                        <li><strong>Registros:</strong> ~125,000 en conjunto de entrenamiento</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section class="files-section">
+                <h2><i class="fas fa-folder-open"></i> Notebooks Disponibles</h2>
+                <div class="files-grid" id="filesGrid">
+                    <!-- Las tarjetas se generarán dinámicamente aquí -->
+                    <div class="loading">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando notebooks...
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Proyecto de Visualización de Datasets | NSL-KDD Dataset Analysis</p>
+            <p class="copyright">© 2024 - Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    <script src="scripts/main.js"></script>
+</body>
+</html>
