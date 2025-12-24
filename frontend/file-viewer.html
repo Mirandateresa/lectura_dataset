@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Notebook</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/viewer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="viewer-container">
+        <header class="viewer-header">
+            <button class="back-btn" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i> Volver
+            </button>
+            <h1 id="fileName">Cargando...</h1>
+            <button class="close-btn" onclick="window.close()">
+                <i class="fas fa-times"></i> Cerrar
+            </button>
+        </header>
+
+        <div class="viewer-content">
+            <div class="file-info-panel">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> Información del Archivo</h3>
+                    <div class="info-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Nombre:</span>
+                            <span id="detailFilename" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">ID:</span>
+                            <span id="detailId" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Última modificación:</span>
+                            <span id="detailModified" class="detail-value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Celdas:</span>
+                            <span id="detailCells" class="detail-value">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navigation-card">
+                    <h3><i class="fas fa-sitemap"></i> Navegación Rápida</h3>
+                    <div class="nav-buttons">
+                        <button onclick="scrollToSection('metadata')" class="nav-btn">
+                            <i class="fas fa-code"></i> Metadatos
+                        </button>
+                        <button onclick="scrollToSection('cells')" class="nav-btn">
+                            <i class="fas fa-th"></i> Celdas
+                        </button>
+                        <button onclick="scrollToSection('markdown')" class="nav-btn">
+                            <i class="fas fa-markdown"></i> Markdown
+                        </button>
+                        <button onclick="scrollToSection('code')" class="nav-btn">
+                            <i class="fas fa-terminal"></i> Código
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="file-content-panel">
+                <div class="content-tabs">
+                    <button class="tab-btn active" onclick="switchTab('preview')">
+                        <i class="fas fa-eye"></i> Vista Previa
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('raw')">
+                        <i class="fas fa-code"></i> JSON Raw
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('structure')">
+                        <i class="fas fa-project-diagram"></i> Estructura
+                    </button>
+                </div>
+
+                <div id="previewTab" class="tab-content active">
+                    <div class="notebook-preview" id="notebookPreview">
+                        <div class="loading-content">
+                            <i class="fas fa-spinner fa-spin"></i> Cargando contenido del notebook...
+                        </div>
+                    </div>
+                </div>
+
+                <div id="rawTab" class="tab-content">
+                    <div class="json-viewer">
+                        <pre id="jsonRaw">Cargando JSON...</pre>
+                    </div>
+                </div>
+
+                <div id="structureTab" class="tab-content">
+                    <div class="structure-viewer" id="structureViewer">
+                        <div class="loading-content">
+                            <i class="fas fa-spinner fa-spin"></i> Analizando estructura...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="viewer-footer">
+            <p>Visualizador de Notebooks Jupyter | Dataset NSL-KDD</p>
+            <div class="footer-controls">
+                <button onclick="printContent()" class="footer-btn">
+                    <i class="fas fa-print"></i> Imprimir
+                </button>
+                <button onclick="downloadJSON()" class="footer-btn">
+                    <i class="fas fa-download"></i> Descargar JSON
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="scripts/viewer.js"></script>
+</body>
+</html>
