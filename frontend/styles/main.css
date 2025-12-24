@@ -1,0 +1,240 @@
+/* Reset y configuración base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f7fa;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    padding: 2rem 0;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, #2c3e50, #4a6491);
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.header .subtitle {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+/* Sección de información */
+.project-info {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+}
+
+.project-info h2, .files-section h2 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #3498db;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.project-info p {
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+.dataset-info {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.dataset-info h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.dataset-info ul {
+    list-style-type: none;
+}
+
+.dataset-info li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.dataset-info li:before {
+    content: "✓";
+    color: #27ae60;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* Grid de archivos */
+.files-section {
+    margin-bottom: 3rem;
+}
+
+.files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+/* Tarjetas de archivos */
+.file-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.file-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: #3498db;
+}
+
+.file-card-header {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.file-id {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.file-name {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.file-card-body {
+    padding: 1.5rem;
+}
+
+.file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #555;
+}
+
+.info-item i {
+    color: #3498db;
+    width: 20px;
+}
+
+.file-card-footer {
+    padding: 1rem 1.5rem;
+    background: #f8f9fa;
+    text-align: center;
+}
+
+.view-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #27ae60;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.view-btn:hover {
+    background: #219653;
+}
+
+/* Estado de carga */
+.loading {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    color: #7f8c8d;
+    font-size: 1.1rem;
+}
+
+.loading i {
+    margin-right: 10px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 2rem 0;
+    color: #7f8c8d;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 2rem;
+}
+
+.copyright {
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .files-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .container {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header h1 {
+        font-size: 1.7rem;
+    }
+    
+    .project-info, .file-card {
+        padding: 1rem;
+    }
+}
