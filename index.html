@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualización Dataset NSL-KDD</title>
+    <title>Visualizador de Notebook</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -13,23 +13,9 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        :root {
-            --primary: #1a237e;
-            --primary-light: #534bae;
-            --secondary: #ff4081;
-            --accent: #00bcd4;
-            --light-bg: #f5f7ff;
-            --dark-text: #1a1a2e;
-            --light-text: #f5f5f5;
-            --card-bg: #ffffff;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --success: #4caf50;
-            --warning: #ff9800;
-        }
-        
         body {
             background: linear-gradient(135deg, #f5f7ff 0%, #e3e8ff 100%);
-            color: var(--dark-text);
+            color: #333;
             min-height: 100vh;
         }
         
@@ -39,763 +25,407 @@
             padding: 20px;
         }
         
-        /* Header */
         .header {
             text-align: center;
             padding: 30px 20px;
             margin-bottom: 30px;
-            background: linear-gradient(to right, var(--primary), var(--primary-light));
-            color: var(--light-text);
+            background: linear-gradient(to right, #1a237e, #534bae);
+            color: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-            background-size: cover;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
         
         .header h1 {
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             margin-bottom: 10px;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
         }
         
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            position: relative;
-        }
-        
-        /* Main Content */
-        .main-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-        
-        @media (max-width: 900px) {
-            .main-content {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        /* Project Info */
-        .project-info {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px var(--shadow);
-            transition: transform 0.3s ease;
-        }
-        
-        .project-info:hover {
-            transform: translateY(-5px);
-        }
-        
-        .project-info h2 {
-            color: var(--primary);
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .project-info p {
-            line-height: 1.6;
-            margin-bottom: 25px;
-            color: #555;
-        }
-        
-        .dataset-info {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4ff 100%);
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 5px solid var(--accent);
-        }
-        
-        .dataset-info h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .dataset-info ul {
-            list-style-type: none;
-        }
-        
-        .dataset-info li {
-            padding: 8px 0;
-            border-bottom: 1px dashed #ddd;
-            display: flex;
-        }
-        
-        .dataset-info li:last-child {
-            border-bottom: none;
-        }
-        
-        .dataset-info strong {
-            min-width: 120px;
-            color: var(--primary-light);
-        }
-        
-        /* Files Section */
-        .files-section {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px var(--shadow);
-        }
-        
-        .files-section h2 {
-            color: var(--primary);
-            margin-bottom: 20px;
-            font-size: 1.8rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .dataset-selector {
-            margin-bottom: 25px;
-        }
-        
-        .dataset-selector label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 600;
-            color: var(--primary-light);
-        }
-        
-        .dataset-selector select {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 2px solid #ddd;
-            font-size: 1rem;
-            background-color: white;
-            color: var(--dark-text);
-            transition: border-color 0.3s;
-        }
-        
-        .dataset-selector select:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        
-        .files-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-        }
-        
-        .file-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border-top: 4px solid var(--primary);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .file-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
-        }
-        
-        .file-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-        }
-        
-        .file-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-        
-        .file-title {
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--primary);
-        }
-        
-        .file-desc {
-            color: #666;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
-        }
-        
-        .file-meta {
-            display: flex;
-            justify-content: space-between;
-            color: #888;
-            font-size: 0.85rem;
-        }
-        
-        .loading {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 40px;
-            color: var(--primary-light);
-            font-size: 1.2rem;
-        }
-        
-        .loading i {
-            margin-right: 10px;
-            font-size: 1.5rem;
-        }
-        
-        .file-card.analisis {
-            border-top-color: var(--accent);
-        }
-        
-        .file-card.analisis .file-icon {
-            color: var(--accent);
-        }
-        
-        .file-card.preprocesamiento {
-            border-top-color: var(--success);
-        }
-        
-        .file-card.preprocesamiento .file-icon {
-            color: var(--success);
-        }
-        
-        .file-card.visualizacion {
-            border-top-color: var(--secondary);
-        }
-        
-        .file-card.visualizacion .file-icon {
-            color: var(--secondary);
-        }
-        
-        /* Dataset Viewer */
-        .dataset-viewer {
-            margin-top: 30px;
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px var(--shadow);
-            display: none;
-        }
-        
-        .dataset-viewer.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .viewer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
-        }
-        
-        .viewer-header h3 {
-            color: var(--primary);
-            font-size: 1.5rem;
-        }
-        
-        .close-viewer {
-            background: var(--secondary);
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #00bcd4;
             color: white;
-            border: none;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 15px;
             transition: background 0.3s;
         }
         
-        .close-viewer:hover {
-            background: #e91e63;
+        .back-button:hover {
+            background: #1a237e;
         }
         
-        .viewer-content {
-            max-height: 400px;
-            overflow-y: auto;
+        .notebook-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .notebook-content h2 {
+            color: #1a237e;
             margin-bottom: 20px;
+            border-bottom: 2px solid #00bcd4;
+            padding-bottom: 10px;
         }
         
-        .dataset-table {
-            width: 100%;
-            border-collapse: collapse;
+        .code-block {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            border-left: 4px solid #00bcd4;
         }
         
-        .dataset-table th {
-            background-color: var(--primary);
-            color: white;
-            padding: 12px 15px;
-            text-align: left;
-            position: sticky;
-            top: 0;
+        .markdown-block {
+            background: #f9f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            line-height: 1.6;
         }
         
-        .dataset-table td {
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
+        .markdown-block h3 {
+            color: #1a237e;
+            margin-bottom: 10px;
         }
         
-        .dataset-table tr:hover {
-            background-color: #f9f9ff;
+        .markdown-block p {
+            margin-bottom: 10px;
         }
         
-        .viewer-stats {
+        .markdown-block ul, .markdown-block ol {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .notebook-info {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
-            margin-top: 20px;
+            margin-bottom: 30px;
         }
         
-        .stat-box {
-            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4ff 100%);
-            padding: 15px;
+        .info-box {
+            background: white;
+            padding: 20px;
             border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
             text-align: center;
-            border-left: 4px solid var(--accent);
         }
         
-        .stat-value {
-            font-size: 2rem;
+        .info-value {
+            font-size: 1.8rem;
             font-weight: 700;
-            color: var(--primary);
+            color: #1a237e;
         }
         
-        .stat-label {
+        .info-label {
             color: #666;
             font-size: 0.9rem;
             margin-top: 5px;
         }
         
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 25px;
-            margin-top: 30px;
-            background: linear-gradient(to right, var(--primary), var(--primary-light));
-            color: var(--light-text);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px var(--shadow);
+        .notebook-preview {
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            background: white;
         }
         
-        .footer p {
+        .notebook-cell {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .notebook-cell:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .cell-type {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
             margin-bottom: 10px;
         }
         
-        .copyright {
+        .cell-type.code {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+        
+        .cell-type.markdown {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .cell-type.output {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .cell-content {
+            margin-top: 10px;
+        }
+        
+        .cell-output {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
             font-size: 0.9rem;
-            opacity: 0.8;
+            overflow-x: auto;
         }
         
-        /* Badges */
-        .badge {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-left: 10px;
+        .json-view {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
         }
         
-        .badge.new {
-            background-color: var(--accent);
-            color: white;
+        .json-key {
+            color: #d32f2f;
         }
         
-        .badge.updated {
-            background-color: var(--warning);
-            color: white;
+        .json-value {
+            color: #388e3c;
+        }
+        
+        .json-string {
+            color: #1976d2;
+        }
+        
+        .json-number {
+            color: #f57c00;
+        }
+        
+        .json-boolean {
+            color: #7b1fa2;
+        }
+        
+        .json-null {
+            color: #757575;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1><i class="fas fa-shield-alt"></i> Visualización Dataset NSL-KDD</h1>
-            <p class="subtitle">Explora los notebooks de análisis de datos de seguridad</p>
+            <h1 id="notebookTitle">Visualizador de Notebook</h1>
+            <p id="notebookDescription">Contenido del notebook seleccionado</p>
+            <a href="index.html" class="back-button">
+                <i class="fas fa-arrow-left"></i> Volver al listado
+            </a>
         </header>
-
-        <main class="main-content">
-            <section class="project-info">
-                <h2><i class="fas fa-info-circle"></i> Acerca del Proyecto</h2>
-                <p>Este proyecto permite visualizar y explorar los notebooks del dataset ISCX NSL-KDD, utilizado para la detección de intrusiones en redes. Haz clic en cualquiera de las tarjetas para ver el contenido detallado de cada notebook.</p>
-                
-                <div class="dataset-info">
-                    <h3><i class="fas fa-chart-bar"></i> Sobre el Dataset</h3>
-                    <ul>
-                        <li><strong>Nombre:</strong> ISCX NSL-KDD</li>
-                        <li><strong>Propósito:</strong> Detección de intrusiones en redes</li>
-                        <li><strong>Mejoras:</strong> Versión mejorada del KDD'99 sin registros redundantes</li>
-                        <li><strong>Registros:</strong> ~125,000 en conjunto de entrenamiento</li>
-                        <li><strong>Características:</strong> 41 atributos + etiqueta de clase</li>
-                        <li><strong>Ataques:</strong> 4 categorías principales (DoS, Probe, R2L, U2R)</li>
-                    </ul>
-                </div>
-            </section>
-
-            <section class="files-section">
-                <h2><i class="fas fa-folder-open"></i> Notebooks Disponibles</h2>
-                
-                <div class="dataset-selector">
-                    <label for="datasetSelect"><i class="fas fa-database"></i> Selecciona un dataset:</label>
-                    <select id="datasetSelect">
-                        <option value="nsl-kdd">NSL-KDD Dataset Completo</option>
-                        <option value="kdd99">KDD'99 Original</option>
-                        <option value="train">NSL-KDD Train (125,973 registros)</option>
-                        <option value="test">NSL-KDD Test (22,544 registros)</option>
-                        <option value="20percent">KDDTrain+ 20%</option>
-                    </select>
-                </div>
-                
-                <div class="files-grid" id="filesGrid">
-                    <!-- Las tarjetas se generarán dinámicamente aquí -->
-                    <div class="loading">
-                        <i class="fas fa-spinner fa-spin"></i> Cargando notebooks...
-                    </div>
-                </div>
-            </section>
-        </main>
         
-        <section class="dataset-viewer" id="datasetViewer">
-            <div class="viewer-header">
-                <h3 id="viewerTitle">Visualización de Dataset</h3>
-                <button class="close-viewer" id="closeViewer">
-                    <i class="fas fa-times"></i>
-                </button>
+        <div class="notebook-info" id="notebookInfo">
+            <!-- Información del notebook se cargará aquí -->
+        </div>
+        
+        <div class="notebook-content">
+            <h2>Contenido del Notebook</h2>
+            <div class="notebook-preview" id="notebookPreview">
+                <!-- Contenido del notebook se cargará aquí -->
             </div>
-            <div class="viewer-content" id="viewerContent">
-                <!-- Contenido del dataset se cargará aquí -->
-            </div>
-            <div class="viewer-stats" id="viewerStats">
-                <!-- Estadísticas del dataset se cargarán aquí -->
-            </div>
-        </section>
-
-        <footer class="footer">
-            <p>Proyecto de Visualización de Datasets | NSL-KDD Dataset Analysis</p>
-            <p class="copyright">© 2024 - Todos los derechos reservados</p>
-        </footer>
+        </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Datos de los notebooks disponibles
-            const notebooks = [
-                {
-                    id: 1,
-                    title: "Análisis Exploratorio Inicial",
-                    description: "Análisis inicial del dataset NSL-KDD con visualización de características principales.",
-                    type: "analisis",
-                    icon: "fas fa-chart-line",
-                    date: "2024-01-15",
-                    records: 125973,
-                    features: 42,
-                    dataset: "nsl-kdd"
-                },
-                {
-                    id: 2,
-                    title: "Preprocesamiento de Datos",
-                    description: "Limpieza y transformación de datos para prepararlos para modelos de ML.",
-                    type: "preprocesamiento",
-                    icon: "fas fa-filter",
-                    date: "2024-02-10",
-                    records: 125973,
-                    features: 42,
-                    dataset: "nsl-kdd"
-                },
-                {
-                    id: 3,
-                    title: "Visualización de Ataques",
-                    description: "Visualización de las diferentes categorías de ataques en el dataset.",
-                    type: "visualizacion",
-                    icon: "fas fa-eye",
-                    date: "2024-02-28",
-                    records: 22544,
-                    features: 42,
-                    dataset: "test",
-                    badge: "new"
-                },
-                {
-                    id: 4,
-                    title: "Modelos de Clasificación",
-                    description: "Implementación y evaluación de modelos de ML para detección de intrusiones.",
-                    type: "analisis",
-                    icon: "fas fa-robot",
-                    date: "2024-03-05",
-                    records: 125973,
-                    features: 42,
-                    dataset: "train",
-                    badge: "updated"
-                },
-                {
-                    id: 5,
-                    title: "Comparación KDD'99 vs NSL-KDD",
-                    description: "Análisis comparativo entre el dataset original y la versión mejorada.",
-                    type: "analisis",
-                    icon: "fas fa-balance-scale",
-                    date: "2023-12-20",
-                    records: 494021,
-                    features: 41,
-                    dataset: "kdd99"
-                },
-                {
-                    id: 6,
-                    title: "Análisis de Características",
-                    description: "Selección y evaluación de las características más relevantes para detección.",
-                    type: "analisis",
-                    icon: "fas fa-sliders-h",
-                    date: "2024-01-30",
-                    records: 25192,
-                    features: 42,
-                    dataset: "20percent"
-                }
-            ];
+            // Obtener parámetro del archivo desde la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const fileName = urlParams.get('file');
             
-            // Datos de ejemplo para los diferentes datasets
-            const datasetSamples = {
-                "nsl-kdd": [
-                    { duration: 0, protocol_type: "tcp", service: "http", flag: "SF", src_bytes: 181, dst_bytes: 5450, attack: "normal" },
-                    { duration: 0, protocol_type: "udp", service: "domain_u", flag: "SF", src_bytes: 236, dst_bytes: 112, attack: "neptune" },
-                    { duration: 0, protocol_type: "tcp", service: "smtp", flag: "SF", src_bytes: 431, dst_bytes: 0, attack: "normal" },
-                    { duration: 0, protocol_type: "tcp", service: "http", flag: "SF", src_bytes: 232, dst_bytes: 8153, attack: "satan" },
-                    { duration: 1, protocol_type: "tcp", service: "ftp_data", flag: "SF", src_bytes: 491, dst_bytes: 0, attack: "portsweep" }
+            // Datos de ejemplo para los notebooks
+            const notebookData = {
+                "01_Analisis_Exploratorio.ipynb": {
+                    title: "Análisis Exploratorio Inicial",
+                    description: "Análisis inicial del dataset NSL-KDD con visualización de características principales",
+                    date: "2024-01-15",
+                    author: "Equipo de Análisis",
+                    cells: 24,
+                    type: "Análisis"
+                },
+                "02_Preprocesamiento.ipynb": {
+                    title: "Preprocesamiento de Datos",
+                    description: "Limpieza y transformación de datos para prepararlos para modelos de ML",
+                    date: "2024-02-10",
+                    author: "Equipo de Preprocesamiento",
+                    cells: 18,
+                    type: "Preprocesamiento"
+                },
+                "03_Visualizacion_Ataques.ipynb": {
+                    title: "Visualización de Ataques",
+                    description: "Visualización de las diferentes categorías de ataques en el dataset",
+                    date: "2024-02-28",
+                    author: "Equipo de Visualización",
+                    cells: 32,
+                    type: "Visualización"
+                },
+                "04_Modelos_Clasificacion.ipynb": {
+                    title: "Modelos de Clasificación",
+                    description: "Implementación y evaluación de modelos de ML para detección de intrusiones",
+                    date: "2024-03-05",
+                    author: "Equipo de Machine Learning",
+                    cells: 45,
+                    type: "Análisis"
+                },
+                "05_Regresion_Logistica.ipynb": {
+                    title: "Regresión Logística: Detección de SPAM",
+                    description: "Análisis de correos SPAM utilizando regresión logística",
+                    date: "2024-03-12",
+                    author: "Equipo de Estadística",
+                    cells: 28,
+                    type: "Análisis"
+                },
+                "06_Comparacion_KDD.ipynb": {
+                    title: "Comparación KDD'99 vs NSL-KDD",
+                    description: "Análisis comparativo entre el dataset original y la versión mejorada",
+                    date: "2023-12-20",
+                    author: "Equipo de Investigación",
+                    cells: 22,
+                    type: "Análisis"
+                }
+            };
+            
+            // Datos de ejemplo para las celdas del notebook
+            const notebookCells = {
+                "code": [
+                    {
+                        content: `import pandas as pd\nimport numpy as np\nimport matplotlib.pyplot as plt\nimport seaborn as sns\n\n# Cargar el dataset\ndf = pd.read_csv('NSL-KDD/KDDTrain+.csv')\nprint(f\"Dataset shape: {df.shape}\")\nprint(f\"Columns: {df.columns.tolist()}\")`
+                    },
+                    {
+                        content: `# Análisis básico del dataset\nprint(df.info())\nprint(df.describe())\n\n# Verificar valores nulos\nprint(f\"Valores nulos:\\n{df.isnull().sum()}\")`
+                    },
+                    {
+                        content: `# Distribución de clases\ndf_class_distribution = df['class'].value_counts()\nprint(df_class_distribution)\n\n# Visualización\ndf_class_distribution.plot(kind='bar', figsize=(10, 6))\nplt.title('Distribución de clases en NSL-KDD')\nplt.xlabel('Clase')\nplt.ylabel('Frecuencia')\nplt.show()`
+                    }
                 ],
-                "kdd99": [
-                    { duration: 0, protocol_type: "tcp", service: "http", flag: "SF", src_bytes: 181, dst_bytes: 5450, land: 0, attack: "normal" },
-                    { duration: 0, protocol_type: "udp", service: "domain_u", flag: "SF", src_bytes: 236, dst_bytes: 112, land: 0, attack: "neptune" },
-                    { duration: 0, protocol_type: "tcp", service: "smtp", flag: "SF", src_bytes: 431, dst_bytes: 0, land: 0, attack: "normal" }
+                "markdown": [
+                    {
+                        content: `# Análisis Exploratorio de NSL-KDD Dataset\n\n## Objetivo\nEl objetivo de este notebook es realizar un análisis exploratorio inicial del dataset NSL-KDD para comprender la estructura de los datos y las características disponibles.`
+                    },
+                    {
+                        content: `## Dataset NSL-KDD\n\nEl dataset NSL-KDD es una versión mejorada del famoso dataset KDD Cup 1999 para detección de intrusiones en redes. Contiene:\n\n- **125,973 registros** en el conjunto de entrenamiento\n- **22,544 registros** en el conjunto de prueba\n- **41 características** de red\n- **1 variable objetivo** (clase: normal o ataque)`
+                    },
+                    {
+                        content: `## Estructura del Dataset\n\nLas características del dataset se dividen en:\n\n1. **Características básicas de conexión**: duración, protocolo, servicio, flag\n2. **Características de contenido**: intentos de login fallidos, acceso root\n3. **Características temporales**: número de conexiones en los últimos 2 segundos\n4. **Características de host**: número de conexiones al mismo host`
+                    }
                 ],
-                "train": [
-                    { duration: 0, protocol_type: "tcp", service: "ftp_data", flag: "SF", src_bytes: 491, dst_bytes: 0, attack: "normal" },
-                    { duration: 0, protocol_type: "tcp", service: "other", flag: "SF", src_bytes: 232, dst_bytes: 8153, attack: "satan" },
-                    { duration: 0, protocol_type: "tcp", service: "private", flag: "S0", src_bytes: 0, dst_bytes: 0, attack: "neptune" }
-                ],
-                "test": [
-                    { duration: 0, protocol_type: "tcp", service: "http", flag: "SF", src_bytes: 232, dst_bytes: 107, attack: "normal" },
-                    { duration: 0, protocol_type: "tcp", service: "ftp_data", flag: "SF", src_bytes: 235, dst_bytes: 0, attack: "portsweep" },
-                    { duration: 1, protocol_type: "icmp", service: "eco_i", flag: "SF", src_bytes: 1032, dst_bytes: 0, attack: "smurf" }
-                ],
-                "20percent": [
-                    { duration: 0, protocol_type: "tcp", service: "http", flag: "SF", src_bytes: 181, dst_bytes: 5450, attack: "normal" },
-                    { duration: 0, protocol_type: "udp", service: "domain_u", flag: "SF", src_bytes: 236, dst_bytes: 112, attack: "neptune" }
+                "output": [
+                    {
+                        content: `Dataset shape: (125973, 42)\nColumns: ['duration', 'protocol_type', 'service', 'flag', 'src_bytes', 'dst_bytes', 'land', 'wrong_fragment', 'urgent', 'hot', 'num_failed_logins', 'logged_in', 'num_compromised', 'root_shell', 'su_attempted', 'num_root', 'num_file_creations', 'num_shells', 'num_access_files', 'num_outbound_cmds', 'is_host_login', 'is_guest_login', 'count', 'srv_count', 'serror_rate', 'srv_serror_rate', 'rerror_rate', 'srv_rerror_rate', 'same_srv_rate', 'diff_srv_rate', 'srv_diff_host_rate', 'dst_host_count', 'dst_host_srv_count', 'dst_host_same_srv_rate', 'dst_host_diff_srv_rate', 'dst_host_same_src_port_rate', 'dst_host_srv_diff_host_rate', 'dst_host_serror_rate', 'dst_host_srv_serror_rate', 'dst_host_rerror_rate', 'dst_host_srv_rerror_rate', 'class']`
+                    },
+                    {
+                        content: `<class 'pandas.core.frame.DataFrame'>\nRangeIndex: 125973 entries, 0 to 125972\nData columns (total 42 columns):\n #   Column                       Non-Null Count   Dtype  \n---  ------                       --------------   -----  \n 0   duration                     125973 non-null  int64  \n 1   protocol_type                125973 non-null  object \n 2   service                      125973 non-null  object \n 3   flag                         125973 non-null  object \n 4   src_bytes                    125973 non-null  int64  \n 5   dst_bytes                    125973 non-null  int64  \n...\n41  class                         125973 non-null  object \ndtypes: float64(15), int64(17), object(10)\nmemory usage: 40.4+ MB`
+                    },
+                    {
+                        content: `normal          67343\nneptune         41214\ndos              45927\nprobe           11656\nr2l               995\nu2r                52\nName: class, dtype: int64`
+                    }
                 ]
             };
             
-            // Información de los datasets
-            const datasetInfo = {
-                "nsl-kdd": {
-                    name: "NSL-KDD Dataset Completo",
-                    records: 148517,
-                    features: 42,
-                    description: "Dataset completo NSL-KDD con conjuntos de entrenamiento y prueba combinados."
-                },
-                "kdd99": {
-                    name: "KDD'99 Original",
-                    records: 494021,
-                    features: 41,
-                    description: "Dataset original KDD Cup 1999 con datos de detección de intrusiones."
-                },
-                "train": {
-                    name: "NSL-KDD Train",
-                    records: 125973,
-                    features: 42,
-                    description: "Conjunto de entrenamiento del dataset NSL-KDD."
-                },
-                "test": {
-                    name: "NSL-KDD Test",
-                    records: 22544,
-                    features: 42,
-                    description: "Conjunto de prueba del dataset NSL-KDD."
-                },
-                "20percent": {
-                    name: "KDDTrain+ 20%",
-                    records: 25192,
-                    features: 42,
-                    description: "Subconjunto del 20% del dataset KDDTrain+."
-                }
-            };
-            
-            // Elementos del DOM
-            const filesGrid = document.getElementById('filesGrid');
-            const datasetSelect = document.getElementById('datasetSelect');
-            const datasetViewer = document.getElementById('datasetViewer');
-            const viewerTitle = document.getElementById('viewerTitle');
-            const viewerContent = document.getElementById('viewerContent');
-            const viewerStats = document.getElementById('viewerStats');
-            const closeViewer = document.getElementById('closeViewer');
-            
-            // Variables para el estado actual
-            let currentDataset = 'nsl-kdd';
-            let filteredNotebooks = notebooks.filter(n => n.dataset === 'nsl-kdd' || n.dataset === 'all');
-            
-            // Función para renderizar las tarjetas de notebooks
-            function renderNotebookCards() {
-                filesGrid.innerHTML = '';
+            // Actualizar información del notebook
+            function updateNotebookInfo() {
+                const notebook = notebookData[fileName] || notebookData["01_Analisis_Exploratorio.ipynb"];
                 
-                if (filteredNotebooks.length === 0) {
-                    filesGrid.innerHTML = `
-                        <div class="loading">
-                            <i class="fas fa-exclamation-circle"></i> No hay notebooks disponibles para este dataset.
-                        </div>
-                    `;
-                    return;
-                }
+                // Actualizar título y descripción
+                document.getElementById('notebookTitle').textContent = notebook.title;
+                document.getElementById('notebookDescription').textContent = notebook.description;
                 
-                filteredNotebooks.forEach(notebook => {
-                    const card = document.createElement('div');
-                    card.className = `file-card ${notebook.type}`;
-                    card.innerHTML = `
-                        <div class="file-icon">
-                            <i class="${notebook.icon}"></i>
-                        </div>
-                        <div class="file-title">
-                            ${notebook.title}
-                            ${notebook.badge ? `<span class="badge ${notebook.badge}">${notebook.badge === 'new' ? 'NUEVO' : 'ACTUALIZADO'}</span>` : ''}
-                        </div>
-                        <div class="file-desc">${notebook.description}</div>
-                        <div class="file-meta">
-                            <span><i class="far fa-calendar"></i> ${notebook.date}</span>
-                            <span><i class="fas fa-table"></i> ${notebook.records.toLocaleString()} reg.</span>
-                        </div>
-                    `;
-                    
-                    card.addEventListener('click', () => openDatasetViewer(notebook));
-                    filesGrid.appendChild(card);
-                });
-            }
-            
-            // Función para abrir el visor de dataset
-            function openDatasetViewer(notebook) {
-                const dataset = notebook.dataset;
-                const sampleData = datasetSamples[dataset] || datasetSamples["nsl-kdd"];
-                const info = datasetInfo[dataset] || datasetInfo["nsl-kdd"];
-                
-                // Actualizar título
-                viewerTitle.textContent = `${notebook.title} - ${info.name}`;
-                
-                // Generar tabla de datos de muestra
-                let tableHTML = '<table class="dataset-table">';
-                
-                // Encabezados de la tabla
-                if (sampleData.length > 0) {
-                    const headers = Object.keys(sampleData[0]);
-                    tableHTML += '<thead><tr>';
-                    headers.forEach(header => {
-                        tableHTML += `<th>${header.replace('_', ' ').toUpperCase()}</th>`;
-                    });
-                    tableHTML += '</tr></thead><tbody>';
-                    
-                    // Filas de datos
-                    sampleData.forEach(row => {
-                        tableHTML += '<tr>';
-                        headers.forEach(header => {
-                            tableHTML += `<td>${row[header]}</td>`;
-                        });
-                        tableHTML += '</tr>';
-                    });
-                    
-                    tableHTML += '</tbody>';
-                }
-                
-                tableHTML += '</table>';
-                viewerContent.innerHTML = tableHTML;
-                
-                // Generar estadísticas
-                const statsHTML = `
-                    <div class="stat-box">
-                        <div class="stat-value">${info.records.toLocaleString()}</div>
-                        <div class="stat-label">Registros totales</div>
+                // Actualizar información
+                const infoHTML = `
+                    <div class="info-box">
+                        <div class="info-value">${notebook.cells}</div>
+                        <div class="info-label">Celdas</div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-value">${info.features}</div>
-                        <div class="stat-label">Características</div>
+                    <div class="info-box">
+                        <div class="info-value">${notebook.type}</div>
+                        <div class="info-label">Tipo</div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-value">${notebook.type === 'analisis' ? 'Análisis' : notebook.type === 'preprocesamiento' ? 'Preprocesamiento' : 'Visualización'}</div>
-                        <div class="stat-label">Tipo de notebook</div>
+                    <div class="info-box">
+                        <div class="info-value">${notebook.date}</div>
+                        <div class="info-label">Fecha</div>
                     </div>
-                    <div class="stat-box">
-                        <div class="stat-value">${notebook.date}</div>
-                        <div class="stat-label">Última actualización</div>
+                    <div class="info-box">
+                        <div class="info-value">${notebook.author}</div>
+                        <div class="info-label">Autor</div>
                     </div>
                 `;
                 
-                viewerStats.innerHTML = statsHTML;
+                document.getElementById('notebookInfo').innerHTML = infoHTML;
                 
-                // Mostrar el visor
-                datasetViewer.classList.add('active');
-                
-                // Desplazar hacia el visor
-                datasetViewer.scrollIntoView({ behavior: 'smooth' });
+                // Generar contenido del notebook
+                generateNotebookContent();
             }
             
-            // Función para filtrar notebooks según el dataset seleccionado
-            function filterNotebooksByDataset() {
-                currentDataset = datasetSelect.value;
+            // Generar contenido del notebook
+            function generateNotebookContent() {
+                const preview = document.getElementById('notebookPreview');
+                let contentHTML = '';
                 
-                if (currentDataset === 'nsl-kdd') {
-                    // Mostrar todos los notebooks excepto el específico de KDD'99
-                    filteredNotebooks = notebooks.filter(n => n.dataset !== 'kdd99');
-                } else {
-                    // Mostrar solo notebooks del dataset seleccionado
-                    filteredNotebooks = notebooks.filter(n => n.dataset === currentDataset);
-                }
+                // Alternar entre diferentes tipos de celdas
+                const cellTypes = ['markdown', 'code', 'output', 'markdown', 'code', 'output', 'markdown'];
                 
-                renderNotebookCards();
+                cellTypes.forEach((type, index) => {
+                    const cells = notebookCells[type];
+                    const cellIndex = index % cells.length;
+                    
+                    contentHTML += `
+                        <div class="notebook-cell">
+                            <div class="cell-type ${type}">${type.toUpperCase()}</div>
+                            <div class="cell-content">
+                                ${type === 'markdown' ? 
+                                    `<div class="markdown-block">${formatMarkdown(cells[cellIndex].content)}</div>` :
+                                    `<div class="code-block">${escapeHtml(cells[cellIndex].content)}</div>`
+                                }
+                                ${type === 'code' ? 
+                                    `<div class="cell-output">${escapeHtml(notebookCells.output[cellIndex].content)}</div>` :
+                                    ''
+                                }
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                preview.innerHTML = contentHTML;
             }
             
-            // Event Listeners
-            datasetSelect.addEventListener('change', filterNotebooksByDataset);
+            // Función para formatear markdown básico
+            function formatMarkdown(text) {
+                return text
+                    .replace(/^# (.*$)/gm, '<h3>$1</h3>')
+                    .replace(/^## (.*$)/gm, '<h4>$1</h4>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+                    .replace(/^- (.*$)/gm, '<li>$1</li>')
+                    .replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>')
+                    .replace(/\n/g, '<br>');
+            }
             
-            closeViewer.addEventListener('click', () => {
-                datasetViewer.classList.remove('active');
-            });
+            // Función para escapar HTML
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
             
             // Inicializar
-            renderNotebookCards();
-            
-            // Simular carga inicial
-            setTimeout(() => {
-                document.querySelector('.loading').style.display = 'none';
-            }, 800);
+            updateNotebookInfo();
         });
     </script>
 </body>
