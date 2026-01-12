@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>División del DataSet</title>
+    <link rel="stylesheet" href="css/divid_datset.css" />
+  </head>
+  <body>
+    <!-- HERO PRINCIPAL -->
+    <section class="hero">
+      <h1 class="glass">División del DataSet</h1>
+    </section>
+
+    <!-- SECCIÓN DE RESULTADOS -->
+    <section class="result-section division">
+      <p id="status" class="status-placeholder">Procesando dataset...</p>
+
+      <div id="splitInfo" class="split-card hidden"></div>
+
+      <div class="charts">
+        <div class="plot-card">
+          <h4>Train</h4>
+          <img id="trainChart" />
+        </div>
+        <div class="plot-card">
+          <h4>Validación</h4>
+          <img id="valChart" />
+        </div>
+        <div class="plot-card">
+          <h4>Test</h4>
+          <img id="testChart" />
+        </div>
+      </div>
+    </section>
+
+    <a href="index.html" class="menu-btn">⬅ Regresar</a>
+
+    <script src="js/config.js"></script>
+    <script src="js/division_dataset.js"></script>
+  </body>
+</html>
