@@ -1,0 +1,154 @@
+/* ===============================
+   VARIABLES GLOBALES
+   =============================== */
+:root {
+    --bg-color: #0e0e11;
+    --text-color: #ab0db1;
+    --accent-color: #a855f7;
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --title-size: clamp(20px, 5vw + 1rem, 56px);
+    --subtitle-size: clamp(1rem, 2.5vw + 0.5rem, 2rem);
+    --border-gradient: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+/* ===============================
+   ESTILOS GENERALES
+   =============================== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: block; /* Cambiado de flex para evitar que las tablas se compriman */
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+/* ===============================
+   HERO / TÍTULO PRINCIPAL
+   =============================== */
+h1 {
+    font-size: var(--title-size);
+    text-align: center;
+    color: transparent;
+    background: var(--border-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 8px rgba(168,85,247,0.4), 0 0 16px rgba(236,72,153,0.3);
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+h1:hover {
+    text-shadow: 0 0 12px rgba(168,85,247,0.7), 0 0 24px rgba(236,72,153,0.6);
+}
+
+/* ===============================
+   ESTADO / PLACEHOLDER
+   =============================== */
+#status {
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    text-shadow: 0 0 6px rgba(168,85,247,0.5);
+    margin-bottom: 2rem;
+}
+
+/* ===============================
+   TABLAS Y CONTENEDORES
+   =============================== */
+/* Este es el contenedor que rodea a las tablas inyectadas por JS */
+.table-container, 
+#imputerInfo, #oneHotInfo, #scaledInfo, #splitInfo, #previewTable {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin: 0 auto 2rem auto;
+    max-width: 1200px; /* Ancho máximo para legibilidad */
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 15px rgba(168,85,247,0.1);
+    overflow-x: auto; /* Permite scroll horizontal si la tabla es muy ancha */
+}
+
+table {
+    width: 100%;
+    min-width: 700px; /* Asegura que la tabla mantenga forma en móviles */
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+table th {
+    padding: 14px 18px;
+    background: var(--border-gradient);
+    color: #fff;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+table td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid rgba(171,13,177,0.2);
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+table tr:last-child td {
+    border-bottom: none;
+}
+
+table tr:hover td {
+    background: rgba(168,85,247,0.1);
+}
+
+/* ===============================
+   BOTÓN DE REGRESO
+   =============================== */
+.back-btn-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 28px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #fff;
+    background: var(--accent-color);
+    border: 1px solid #ab0db1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: #8a0ca1;
+    box-shadow: 0 0 15px rgba(168,85,247,0.7), 0 0 25px rgba(236,72,153,0.5);
+    transform: translateY(-3px);
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media (max-width: 600px) {
+    h1 { font-size: 2rem; }
+    .table-container, 
+    #imputerInfo, #oneHotInfo, #scaledInfo, #splitInfo, #previewTable {
+        padding: 0.8rem;
+    }
+}

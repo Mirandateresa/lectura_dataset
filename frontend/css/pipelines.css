@@ -1,0 +1,162 @@
+/* ===============================
+   VARIABLES GLOBALES
+   =============================== */
+:root {
+    --bg-color: #0e0e11;
+    --text-color: #e2e8f0;
+    --accent-color: #a855f7;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.12);
+    --title-size: clamp(24px, 5vw, 48px);
+    --border-gradient: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+/* ===============================
+   ESTILOS GENERALES
+   =============================== */
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+}
+
+/* HERO PRINCIPAL */
+.hero {
+    position: relative;
+    padding: 4rem 1rem;
+    text-align: center;
+    overflow: hidden;
+}
+
+.hero-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at center, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+    z-index: 0;
+}
+
+.hero h1.glass {
+    font-size: var(--title-size);
+    background: var(--border-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    position: relative;
+    z-index: 1;
+    font-weight: 800;
+    margin: 0;
+}
+
+/* SECCIÓN DE RESULTADOS */
+section.glass {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2rem;
+    margin: 0 2rem 2rem 2rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+#status {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #f472b6;
+    margin-bottom: 2rem;
+}
+
+/* CARD DE RESULTADOS Y TABLAS */
+.result-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.result-card h4 {
+    margin-top: 0;
+    color: var(--accent-color);
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* CONTENEDOR DE TABLA (Scroll) */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Asegura que no se aplaste */
+}
+
+th {
+    background: rgba(168, 85, 247, 0.2);
+    color: #fff;
+    padding: 14px;
+    text-align: left;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--accent-color);
+}
+
+td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.9rem;
+    color: #cbd5e1;
+}
+
+tr:hover td {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+/* Resaltado de NULL */
+td:empty, .null-value {
+    color: #ef4444;
+    font-weight: bold;
+}
+
+/* BOTÓN REGRESAR */
+.menu-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: var(--border-gradient);
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: transform 0.2s;
+    margin: 1rem auto;
+}
+
+.menu-btn:hover {
+    transform: scale(1.05);
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+/* Scrollbar para la tabla */
+.table-container::-webkit-scrollbar { height: 6px; }
+.table-container::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 10px; }

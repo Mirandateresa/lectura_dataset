@@ -1,0 +1,253 @@
+/* ===============================
+   VARIABLES GLOBALES
+   =============================== */
+:root {
+    --bg-color: #0e0e11;
+    --text-color: #ab0db1;
+    --accent-color: #a855f7; /* morado para textos */
+    --pink-accent: #ec4899;  /* rosa para iconos y glow */
+    --glass-bg: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --title-size: clamp(20px, 5vw + 1rem, 56px);
+    --subtitle-size: clamp(0.9rem, 2vw + 0.5rem, 1.6rem);
+    --border-gradient: linear-gradient(135deg, #a855f7, var(--pink-accent));
+}
+
+/* ===============================
+   ESTILOS GENERALES
+   =============================== */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ===============================
+   HERO PRINCIPAL
+   =============================== */
+.hero {
+    text-align: center;
+    padding: 3rem 1rem 1rem; 
+}
+
+.hero-title {
+    font-size: var(--title-size);
+    color: transparent;
+    background: var(--border-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    text-shadow: 0 0 6px rgba(168,85,247,0.3), 0 0 10px var(--pink-accent);
+    margin: 0;
+}
+
+.hero-title:hover {
+    text-shadow: 0 0 8px rgba(168,85,247,0.5), 0 0 15px var(--pink-accent);
+}
+
+.hero-subtitle {
+    font-size: var(--subtitle-size);
+    color: var(--pink-accent);
+    text-shadow: 0 0 4px var(--pink-accent), 0 0 3px rgba(168,85,247,0.3);
+    margin: 0.5rem 0 1rem 0;
+}
+
+/* ===============================
+   UPLOAD BOX
+   =============================== */
+.upload-box.big-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    cursor: pointer;
+    margin: 0 auto 2rem auto;
+    max-width: 420px;
+    transition: all 0.3s ease;
+    gap: 1rem;
+}
+
+.upload-box.big-upload:hover {
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 25px var(--accent-color), 0 0 20px var(--pink-accent);
+}
+
+.upload-box input[type="file"] {
+    display: none;
+}
+
+.upload-text {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    text-shadow: 0 0 8px rgba(168,85,247,0.6), 0 0 6px var(--pink-accent);
+}
+
+.upload-box small {
+    color: rgba(255,255,255,0.5);
+}
+
+/* ===============================
+   ESTADO DEL DATASET
+   =============================== */
+.dataset-status-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.status-placeholder, #uploadStatus {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--pink-accent);
+    text-shadow: 0 0 6px var(--pink-accent), 0 0 4px rgba(168,85,247,0.3);
+    text-align: center;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 0.6rem 1.2rem;
+    color: var(--accent-color);
+    font-weight: bold;
+    box-shadow: 0 0 12px var(--pink-accent);
+    transition: all 0.3s ease;
+}
+
+.status-badge.hidden {
+    display: none;
+}
+
+/* ===============================
+   BOTÓN RESET DATASET (DESTACADO)
+   =============================== */
+#resetDataset {
+    background: linear-gradient(
+        135deg,
+        rgba(236,72,153,0.35),
+        rgba(168,85,247,0.35)
+    );
+    border: 1px solid rgba(236,72,153,0.6);
+    color: #fff;
+    padding: 18px 44px;          /* más grande */
+    border-radius: 16px;
+    font-weight: bold;
+    font-size: 1.05rem;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    backdrop-filter: blur(8px);
+    box-shadow:
+        0 0 12px rgba(236,72,153,0.6),
+        0 0 20px rgba(168,85,247,0.4);
+    transition: all 0.3s ease;
+}
+
+#resetDataset:hover {
+    background: linear-gradient(
+        135deg,
+        rgba(236,72,153,0.55),
+        rgba(168,85,247,0.55)
+    );
+    box-shadow:
+        0 0 18px rgba(236,72,153,0.9),
+        0 0 35px rgba(168,85,247,0.7);
+    transform: translateY(-3px) scale(1.03);
+}
+
+#resetDataset:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow:
+        0 0 10px rgba(236,72,153,0.6),
+        0 0 15px rgba(168,85,247,0.4);
+}
+
+#resetDataset.hidden {
+    display: none;
+}
+
+
+/* ==============================================
+   MENÚ PRINCIPAL (BOTONES DE ACCIÓN AMPLIADOS)
+   ============================================== */
+.big-menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem; /* Aumentado el espacio entre botones */
+    margin: 3rem 0;
+}
+
+.menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    /* Aumento significativo de tamaño */
+    padding: 24px 50px; 
+    font-size: 1.4rem; 
+    border-radius: 18px;
+    
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--accent-color);
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.menu-btn i {
+    color: var(--pink-accent);
+    font-size: 1.6rem; /* Iconos más grandes */
+}
+
+.menu-btn.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.menu-btn:hover {
+    background: rgba(255,255,255,0.15);
+    box-shadow: 0 0 30px var(--pink-accent), 0 0 20px var(--accent-color);
+    transform: translateY(-4px); /* Salta un poco más al hacer hover */
+}
+
+/* ===============================
+   FOOTER
+   =============================== */
+.footer {
+    text-align: center;
+    margin-top: auto;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    opacity: 0.6;
+}
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+@media (max-width: 600px) {
+    .hero-title { font-size: clamp(18px, 6vw, 36px); }
+    .hero-subtitle { font-size: clamp(0.8rem, 4vw, 1.1rem); }
+    .upload-box.big-upload { padding: 2.5rem 1.5rem; max-width: 95%; }
+    .upload-text { font-size: 1.3rem; }
+    /* Ajuste para móviles para que no se desborden */
+    .menu-btn { padding: 18px 30px; font-size: 1.1rem; }
+    .menu-btn i { font-size: 1.2rem; }
+}
