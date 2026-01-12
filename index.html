@@ -388,7 +388,6 @@
                     <label for="datasetSelect"><i class="fas fa-database"></i> Selecciona un dataset:</label>
                     <select id="datasetSelect">
                         <option value="nsl-kdd">NSL-KDD Dataset Completo</option>
-                        <option value="kdd99">KDD'99 Original</option>
                         <option value="train">NSL-KDD Train (125,973 registros)</option>
                         <option value="test">NSL-KDD Test (22,544 registros)</option>
                         <option value="20percent">KDDTrain+ 20%</option>
@@ -416,84 +415,84 @@
             const notebooks = [
                 {
                     id: 1,
-                    title: "Análisis Exploratorio Inicial",
-                    description: "Análisis inicial del dataset NSL-KDD con visualización de características principales.",
+                    title: "Regresión Logística para Detección de SPAM",
+                    description: "Implementación de regresión logística para la detección de SPAM en el dataset NSL-KDD.",
                     type: "analisis",
                     icon: "fas fa-chart-line",
-                    date: "2024-01-15",
+                    date: "2024-03-15",
                     records: 125973,
                     features: 42,
                     dataset: "nsl-kdd",
                     badge: "new",
-                    filepath: "01_Analisis_Exploratorio.ipynb",
-                    url: "notebook-viewer.html?file=01_Analisis_Exploratorio.ipynb"
+                    filepath: "05_regresion logistica.ipynb",
+                    url: "notebook-viewer.html?file=05_regresion%20logistica.ipynb"
                 },
                 {
                     id: 2,
-                    title: "Preprocesamiento de Datos",
-                    description: "Limpieza y transformación de datos para prepararlos para modelos de ML.",
-                    type: "preprocesamiento",
-                    icon: "fas fa-filter",
-                    date: "2024-02-10",
+                    title: "Visualización del Dataset",
+                    description: "Análisis exploratorio y visualización de las características principales del dataset NSL-KDD.",
+                    type: "visualizacion",
+                    icon: "fas fa-chart-bar",
+                    date: "2024-03-10",
                     records: 125973,
                     features: 42,
                     dataset: "nsl-kdd",
-                    filepath: "02_Preprocesamiento.ipynb",
-                    url: "notebook-viewer.html?file=02_Preprocesamiento.ipynb"
+                    filepath: "06_visualizacion del data set.ipynb",
+                    url: "notebook-viewer.html?file=06_visualizacion%20del%20data%20set.ipynb"
                 },
                 {
                     id: 3,
-                    title: "Visualización de Ataques",
-                    description: "Visualización de las diferentes categorías de ataques en el dataset.",
-                    type: "visualizacion",
-                    icon: "fas fa-eye",
-                    date: "2024-02-28",
-                    records: 22544,
+                    title: "División del Dataset",
+                    description: "Proceso de división del dataset en conjuntos de entrenamiento, validación y prueba.",
+                    type: "preprocesamiento",
+                    icon: "fas fa-cut",
+                    date: "2024-03-12",
+                    records: 148517,
                     features: 42,
-                    dataset: "test",
+                    dataset: "nsl-kdd",
                     badge: "new",
-                    filepath: "03_Visualizacion_Ataques.ipynb",
-                    url: "notebook-viewer.html?file=03_Visualizacion_Ataques.ipynb"
+                    filepath: "07_division dataset.ipynb",
+                    url: "notebook-viewer.html?file=07_division%20dataset.ipynb"
                 },
                 {
                     id: 4,
-                    title: "Modelos de Clasificación",
-                    description: "Implementación y evaluación de modelos de ML para detección de intrusiones.",
-                    type: "analisis",
-                    icon: "fas fa-robot",
-                    date: "2024-03-05",
+                    title: "Preparación del Dataset",
+                    description: "Limpieza, normalización y transformación de datos para prepararlos para modelos de ML.",
+                    type: "preprocesamiento",
+                    icon: "fas fa-filter",
+                    date: "2024-03-14",
                     records: 125973,
                     features: 42,
                     dataset: "train",
-                    badge: "updated",
-                    filepath: "04_Modelos_Clasificacion.ipynb",
-                    url: "notebook-viewer.html?file=04_Modelos_Clasificacion.ipynb"
+                    filepath: "08_preparacion dataset.ipynb",
+                    url: "notebook-viewer.html?file=08_preparacion%20dataset.ipynb"
                 },
                 {
                     id: 5,
-                    title: "Regresión Logística",
-                    description: "Detección de SPAM utilizando regresión logística.",
-                    type: "analisis",
-                    icon: "fas fa-chart-bar",
-                    date: "2024-03-12",
-                    records: 75419,
+                    title: "Creación de Transformadores",
+                    description: "Desarrollo de transformadores personalizados para el preprocesamiento de datos.",
+                    type: "preprocesamiento",
+                    icon: "fas fa-cogs",
+                    date: "2024-03-16",
+                    records: 125973,
                     features: 42,
-                    dataset: "nsl-kdd",
-                    filepath: "05_Regresion_Logistica.ipynb",
-                    url: "notebook-viewer.html?file=05_Regresion_Logistica.ipynb"
+                    dataset: "train",
+                    badge: "new",
+                    filepath: "09_creacion de transformacdores.ipynb",
+                    url: "notebook-viewer.html?file=09_creacion%20de%20transformacdores.ipynb"
                 },
                 {
                     id: 6,
-                    title: "Comparación KDD'99 vs NSL-KDD",
-                    description: "Análisis comparativo entre el dataset original y la versión mejorada.",
+                    title: "Evaluación de Resultados",
+                    description: "Análisis y evaluación de los resultados obtenidos por los modelos implementados.",
                     type: "analisis",
-                    icon: "fas fa-balance-scale",
-                    date: "2023-12-20",
-                    records: 494021,
-                    features: 41,
-                    dataset: "kdd99",
-                    filepath: "06_Comparacion_KDD.ipynb",
-                    url: "notebook-viewer.html?file=06_Comparacion_KDD.ipynb"
+                    icon: "fas fa-chart-pie",
+                    date: "2024-03-18",
+                    records: 22544,
+                    features: 42,
+                    dataset: "test",
+                    filepath: "10_evaluacion de resulatados.ipynb",
+                    url: "notebook-viewer.html?file=10_evaluacion%20de%20resulatados.ipynb"
                 }
             ];
             
@@ -503,7 +502,7 @@
             
             // Variables para el estado actual
             let currentDataset = 'nsl-kdd';
-            let filteredNotebooks = notebooks.filter(n => n.dataset !== 'kdd99');
+            let filteredNotebooks = notebooks.filter(n => n.dataset === 'nsl-kdd' || n.dataset === 'train' || n.dataset === 'test');
             
             // Función para renderizar las tarjetas de notebooks
             function renderNotebookCards() {
@@ -547,11 +546,17 @@
                 currentDataset = datasetSelect.value;
                 
                 if (currentDataset === 'nsl-kdd') {
-                    // Mostrar todos los notebooks excepto el específico de KDD'99
-                    filteredNotebooks = notebooks.filter(n => n.dataset !== 'kdd99');
-                } else {
-                    // Mostrar solo notebooks del dataset seleccionado
-                    filteredNotebooks = notebooks.filter(n => n.dataset === currentDataset);
+                    // Mostrar todos los notebooks
+                    filteredNotebooks = notebooks;
+                } else if (currentDataset === 'train') {
+                    // Mostrar notebooks específicos de entrenamiento
+                    filteredNotebooks = notebooks.filter(n => n.dataset === 'train' || n.dataset === 'nsl-kdd');
+                } else if (currentDataset === 'test') {
+                    // Mostrar notebooks específicos de prueba
+                    filteredNotebooks = notebooks.filter(n => n.dataset === 'test' || n.dataset === 'nsl-kdd');
+                } else if (currentDataset === '20percent') {
+                    // Mostrar notebooks que usen KDDTrain+ 20%
+                    filteredNotebooks = notebooks.filter(n => n.dataset === 'nsl-kdd');
                 }
                 
                 renderNotebookCards();
@@ -565,7 +570,10 @@
             
             // Simular carga inicial
             setTimeout(() => {
-                document.querySelector('.loading').style.display = 'none';
+                const loadingElement = document.querySelector('.loading');
+                if (loadingElement) {
+                    loadingElement.style.display = 'none';
+                }
             }, 800);
         });
     </script>
