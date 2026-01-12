@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visor de Notebook</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #1a237e;
+            --primary-light: #534bae;
+            --secondary: #ff4081;
+            --accent: #00bcd4;
+            --light-bg: #f5f7ff;
+            --dark-text: #1a1a2e;
+            --light-text: #f5f5f5;
+            --code-bg: #f8f9fa;
+            --border: #e1e4e8;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .viewer-header {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: var(--light-text);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header-info p {
+            opacity: 0.9;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #00a5bb;
+        }
+        
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Main Content */
+        .notebook-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+            min-height: 500px;
+        }
+        
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .loading i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        /* Error State */
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #d32f2f;
+            background-color: #ffebee;
+            border-radius: 10px;
+            border-left: 5px solid #d32f2f;
+        }
+        
+        .error i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        /* Notebook Content */
+        .cell {
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .cell-header {
+            background-color: var(--code-bg);
+            padding: 10px 15px;
+            font-weight: 600;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .cell-type {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: normal;
+        }
+        
+        .cell-content {
+            padding: 15px;
+        }
+        
+        /* Code Cells */
+        .code-cell .cell-content {
+            background-color: var(--code-bg);
+            padding: 0;
+        }
+        
+        .code-content {
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        
+        .code-content code {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        }
+        
+        /* Markdown Cells */
+        .markdown-cell .cell-content {
+            line-height: 1.6;
+        }
+        
+        .markdown-cell h1,
+        .markdown-cell h2,
+        .markdown-cell h3 {
+            margin: 20px 0 10px 0;
+            color: var(--primary);
+        }
+        
+        .markdown-cell p {
+            margin-bottom: 15px;
+        }
+        
+        .markdown-cell ul, 
+        .markdown-cell ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .markdown-cell li {
+            margin-bottom: 5px;
+        }
+        
+        .markdown-cell table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .markdown-cell table th,
+        .markdown-cell table td {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            text-align: left;
+        }
+        
+        .markdown-cell table th {
+            background-color: var(--code-bg);
+            color: var(--primary);
+        }
+        
+        /* Output Cells */
+        .output-cell {
+            background-color: #fafafa;
+        }
+        
+        .output-content {
+            padding: 15px;
+            overflow-x: auto;
+        }
+        
+        .output-content img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* JSON Viewer */
+        .json-viewer {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .viewer-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .notebook-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="viewer-header">
+            <div class="header-info">
+                <h1><i class="fas fa-book"></i> <span id="notebookTitle">Cargando Notebook...</span></h1>
+                <p id="fileInfo">Visualización de archivo .ipynb</p>
+            </div>
+            <div class="header-actions">
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+                <button id="downloadBtn" class="btn btn-primary">
+                    <i class="fas fa-download"></i> Descargar
+                </button>
+            </div>
+        </header>
+        
+        <main class="notebook-container" id="notebookContent">
+            <div class="loading" id="loadingState">
+                <i class="fas fa-spinner fa-spin"></i> Cargando notebook...
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>Visualizador de Notebooks NSL-KDD | Utiliza Jupyter Notebook Viewer</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Obtener parámetro del archivo desde la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const fileName = urlParams.get('file');
+            
+            // Elementos del DOM
+            const notebookTitle = document.getElementById('notebookTitle');
+            const fileInfo = document.getElementById('fileInfo');
+            const notebookContent = document.getElementById('notebookContent');
+            const loadingState = document.getElementById('loadingState');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Configurar marked para markdown
+            marked.setOptions({
+                breaks: true,
+                gfm: true,
+                highlight: function(code, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        return hljs.highlight(code, { language: lang }).value;
+                    }
+                    return hljs.highlightAuto(code).value;
+                }
+            });
+            
+            // Función para formatear JSON
+            function formatJSON(obj) {
+                return JSON.stringify(obj, null, 2);
+            }
+            
+            // Función para renderizar una celda de notebook
+            function renderCell(cell, index) {
+                const cellDiv = document.createElement('div');
+                cellDiv.className = 'cell';
+                
+                const cellHeader = document.createElement('div');
+                cellHeader.className = 'cell-header';
+                
+                const cellNumber = document.createElement('span');
+                cellNumber.textContent = `Celda ${index + 1}`;
+                
+                const cellType = document.createElement('span');
+                cellType.className = 'cell-type';
+                
+                const cellContent = document.createElement('div');
+                cellContent.className = 'cell-content';
+                
+                if (cell.cell_type === 'code') {
+                    cellDiv.classList.add('code-cell');
+                    cellType.textContent = 'Código';
+                    
+                    // Mostrar código
+                    const codeContent = document.createElement('pre');
+                    codeContent.className = 'code-content';
+                    
+                    const codeElement = document.createElement('code');
+                    codeElement.textContent = cell.source ? cell.source.join('') : '';
+                    
+                    if (cell.source && cell.source.length > 0) {
+                        hljs.highlightElement(codeElement);
+                    }
+                    
+                    codeContent.appendChild(codeElement);
+                    cellContent.appendChild(codeContent);
+                    
+                    // Mostrar outputs si existen
+                    if (cell.outputs && cell.outputs.length > 0) {
+                        cell.outputs.forEach(output => {
+                            if (output.output_type === 'execute_result' || output.output_type === 'display_data') {
+                                const outputDiv = document.createElement('div');
+                                outputDiv.className = 'output-cell';
+                                
+                                const outputHeader = document.createElement('div');
+                                outputHeader.className = 'cell-header';
+                                outputHeader.innerHTML = '<span>Salida</span><span class="cell-type">Resultado</span>';
+                                
+                                const outputContent = document.createElement('div');
+                                outputContent.className = 'output-content';
+                                
+                                // Manejar diferentes tipos de output
+                                if (output.data) {
+                                    if (output.data['text/html']) {
+                                        outputContent.innerHTML = output.data['text/html'].join('');
+                                    } else if (output.data['image/png']) {
+                                        const img = document.createElement('img');
+                                        img.src = 'data:image/png;base64,' + output.data['image/png'];
+                                        img.alt = 'Output image';
+                                        outputContent.appendChild(img);
+                                    } else if (output.data['text/plain']) {
+                                        const pre = document.createElement('pre');
+                                        pre.textContent = output.data['text/plain'].join('');
+                                        outputContent.appendChild(pre);
+                                    }
+                                } else if (output.text) {
+                                    const pre = document.createElement('pre');
+                                    pre.textContent = output.text.join('');
+                                    outputContent.appendChild(pre);
+                                }
+                                
+                                outputDiv.appendChild(outputHeader);
+                                outputDiv.appendChild(outputContent);
+                                cellDiv.appendChild(outputDiv);
+                            } else if (output.output_type === 'stream') {
+                                const streamDiv = document.createElement('div');
+                                streamDiv.className = 'output-cell';
+                                
+                                const streamHeader = document.createElement('div');
+                                streamHeader.className = 'cell-header';
+                                streamHeader.innerHTML = `<span>Salida</span><span class="cell-type">${output.name || 'Stream'}</span>`;
+                                
+                                const streamContent = document.createElement('div');
+                                streamContent.className = 'output-content';
+                                streamContent.textContent = output.text ? output.text.join('') : '';
+                                
+                                streamDiv.appendChild(streamHeader);
+                                streamDiv.appendChild(streamContent);
+                                cellDiv.appendChild(streamDiv);
+                            }
+                        });
+                    }
+                    
+                } else if (cell.cell_type === 'markdown') {
+                    cellDiv.classList.add('markdown-cell');
+                    cellType.textContent = 'Markdown';
+                    
+                    // Convertir markdown a HTML
+                    const markdownContent = cell.source ? cell.source.join('') : '';
+                    cellContent.innerHTML = marked.parse(markdownContent);
+                    
+                } else if (cell.cell_type === 'raw') {
+                    cellDiv.classList.add('raw-cell');
+                    cellType.textContent = 'Texto Plano';
+                    cellContent.textContent = cell.source ? cell.source.join('') : '';
+                }
+                
+                cellHeader.appendChild(cellNumber);
+                cellHeader.appendChild(cellType);
+                cellDiv.appendChild(cellHeader);
+                cellDiv.appendChild(cellContent);
+                
+                return cellDiv;
+            }
+            
+            // Función para cargar y mostrar el notebook
+            async function loadNotebook(fileName) {
+                try {
+                    // Actualizar información del archivo
+                    notebookTitle.textContent = fileName;
+                    fileInfo.textContent = `Visualizando: ${fileName}`;
+                    
+                    // Configurar enlace de descarga
+                    downloadBtn.onclick = function() {
+                        window.open(fileName, '_blank');
+                    };
+                    
+                    // Intentar cargar el archivo
+                    const response = await fetch(fileName);
+                    
+                    if (!response.ok) {
+                        throw new Error(`Error ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const notebookData = await response.json();
+                    
+                    // Ocultar estado de carga
+                    loadingState.style.display = 'none';
+                    
+                    // Verificar que sea un notebook válido
+                    if (!notebookData.cells || !Array.isArray(notebookData.cells)) {
+                        throw new Error('Formato de notebook inválido');
+                    }
+                    
+                    // Renderizar cada celda
+                    notebookData.cells.forEach((cell, index) => {
+                        notebookContent.appendChild(renderCell(cell, index));
+                    });
+                    
+                } catch (error) {
+                    console.error('Error cargando notebook:', error);
+                    
+                    // Mostrar mensaje de error
+                    loadingState.style.display = 'none';
+                    
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error';
+                    errorDiv.innerHTML = `
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h2>Error al cargar el notebook</h2>
+                        <p>${error.message}</p>
+                        <p>Archivo: ${fileName}</p>
+                        <div style="margin-top: 20px;">
+                            <p>Posibles soluciones:</p>
+                            <ul style="text-align: left; max-width: 500px; margin: 10px auto;">
+                                <li>Verifica que el archivo exista en el servidor</li>
+                                <li>Asegúrate de que el archivo esté en formato .ipynb válido</li>
+                                <li>Verifica los permisos del archivo</li>
+                                <li>Intenta descargar el notebook directamente: 
+                                    <a href="${fileName}" download>${fileName}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    `;
+                    
+                    notebookContent.appendChild(errorDiv);
+                }
+            }
+            
+            // Cargar el notebook si se proporcionó un nombre de archivo
+            if (fileName) {
+                loadNotebook(fileName);
+            } else {
+                loadingState.style.display = 'none';
+                notebookContent.innerHTML = `
+                    <div class="error">
+                        <i class="fas fa-file-exclamation"></i>
+                        <h2>No se especificó un notebook</h2>
+                        <p>Por favor, selecciona un notebook desde la página principal.</p>
+                        <a href="index.html" class="btn btn-primary" style="margin-top: 20px;">
+                            <i class="fas fa-arrow-left"></i> Volver a la página principal
+                        </a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
