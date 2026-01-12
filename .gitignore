@@ -1,0 +1,6 @@
+.
+.envDev
+__pycache__
+media
+backend/backend/__pycache__
+.vscode
